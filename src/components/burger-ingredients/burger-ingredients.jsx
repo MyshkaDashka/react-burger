@@ -1,21 +1,37 @@
-import { useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientCollection } from "./burger-ingredient-collection/burger-ingredient-collection";
 import { IngredientItemType } from "./../../utils/types";
-import ingridientStyles from "./burger-ingredients.module.css";
+import styles from "./burger-ingredients.module.css";
 
 function BurgerIngredients({ data }) {
     const [current, setCurrent] = useState('bun');
 
-    const filterBurgersIngredients = (type) => {
-        return data.filter(e => e.type === type)
-    }
+    const filterBurgersIngredients = useCallback(
+        (type) => data.filter(e => e.type === type),
+        [data]
+    )
+
+    const buns = useMemo(
+        () => filterBurgersIngredients("bun"),
+        [filterBurgersIngredients]
+    )
+
+    const sauces = useMemo(
+        () => filterBurgersIngredients("sauce"),
+        [filterBurgersIngredients]
+    )
+
+    const mains = useMemo(
+        () => filterBurgersIngredients("main"),
+        [filterBurgersIngredients]
+    )
 
     return (
         <>
             <div className="pt-10 pb-5">
-                <p className={`${ingridientStyles.title} text text_type_main-large`}>
+                <p className={`${styles.title} text text_type_main-large`}>
                     Соберите бургер
                 </p>
             </div>
@@ -31,10 +47,10 @@ function BurgerIngredients({ data }) {
                 </Tab>
             </div>
             {!!data?.length &&
-                <div className={ingridientStyles.container}>
-                    <BurgerIngredientCollection name="Булки" data={filterBurgersIngredients("bun")} />
-                    <BurgerIngredientCollection name="Coycы" data={filterBurgersIngredients("sauce")} />
-                    <BurgerIngredientCollection name="Начинки" data={filterBurgersIngredients("main")} />
+                <div className={styles.container}>
+                    <BurgerIngredientCollection name="Булки" data={buns} />
+                    <BurgerIngredientCollection name="Coycы" data={sauces} />
+                    <BurgerIngredientCollection name="Начинки" data={mains} />
                 </div>
             }
 

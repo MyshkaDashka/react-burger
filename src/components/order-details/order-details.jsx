@@ -1,9 +1,9 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import orderDetailsStyles from "./order-details.module.css";
+import styles from "./order-details.module.css";
 
 function OrderDetails() {
     return (
-        <div className={`${orderDetailsStyles.container} pt-5 pb-20`}>
+        <div className={`${styles.container} pt-5 pb-20`}>
             <p className="text text_type_digits-large">123456</p>
             <div className="pt-8">
                 <p className="text text_type_main-medium">идентификатор заказа</p>

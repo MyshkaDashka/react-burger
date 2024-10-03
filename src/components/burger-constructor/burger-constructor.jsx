@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
-import { BurgerConstructorTotal } from "./burger-constructor-total.jsx/burger-constructor-total";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import { BurgerConstructorTotal } from "./burger-constructor-total/burger-constructor-total";
+import { BurgerConstructorIngredient } from "./burger-constructor-ingredient/burger-constructor-ingredient";
 import { IngredientItemType } from "./../../utils/types";
-import constructorStyles from "./burger-constructor.module.css";
+import styles from "./burger-constructor.module.css";
 
 function BurgerConstructor({ data }) {
 
@@ -15,7 +16,7 @@ function BurgerConstructor({ data }) {
     return (
         <>
             {!!data?.length &&
-                <div className={`${constructorStyles.items} pt-25`}>
+                <div className={`${styles.items} pt-25`}>
                     <div className="pr-4">
                         <ConstructorElement
                             type="top"
@@ -25,9 +26,9 @@ function BurgerConstructor({ data }) {
                             thumbnail={bunElement.image}
                         />
                     </div>
-                    <div className={`${constructorStyles.items} ${constructorStyles.list}`}>
+                    <div className={`${styles.items} ${styles.list}`}>
                         {getSelectedIngredients().map((item) => (
-                            <ListItem key={item._id} item={item} />
+                            <BurgerConstructorIngredient key={item._id} item={item} />
                         ))}
                     </div>
                     <div className="pr-4 pb-10">
@@ -46,25 +47,8 @@ function BurgerConstructor({ data }) {
     )
 }
 
-const ListItem = ({ item }) => (
-    <div className={constructorStyles.dragItem}>
-        <div className="pr-2">
-            <DragIcon />
-        </div>
-        <ConstructorElement
-            text={item.name}
-            price={item.price}
-            thumbnail={item.image}
-        />
-    </div>
-);
-
 BurgerConstructor.propTypes = {
     data: PropTypes.arrayOf(IngredientItemType).isRequired
-}
-
-ListItem.propTypes = {
-    item: IngredientItemType.isRequired,
 }
 
 export { BurgerConstructor };

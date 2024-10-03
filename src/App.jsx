@@ -3,27 +3,24 @@ import './App.css'
 import { AppHeader } from './components/app-header/app-header';
 import { BurgerIngredients } from './components/burger-ingredients/burger-ingredients';
 import { BurgerConstructor } from './components/burger-constructor/burger-constructor';
-
-const GET_BURGERS_INGREDIENTS_URL = `https://norma.nomoreparties.space/api/ingredients`;
+import {getIngredients} from './utils/burger-api';
 
 function App() {
 
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
   useEffect(() => {
     setError(null);
     const getBurgersIngredientsData = async () => {
       try {
-        setLoading(true);
-        const res = await fetch(GET_BURGERS_INGREDIENTS_URL);
-        const data = await res.json();
+        const data = await getIngredients();
         setResults(data.data);
-        setLoading(false);
+        setIsLoading(false);
       } catch (err) {
         setError(err);
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     getBurgersIngredientsData();
@@ -33,7 +30,7 @@ function App() {
     <>
       <AppHeader />
       <main className='container'>
-        {loading ? (
+        {isLoading ? (
           <p className="text text_type_main-default text_color_inactive">
             Поиск...
           </p>

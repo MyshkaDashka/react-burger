@@ -1,17 +1,18 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from 'prop-types';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
-import modalStyles from "./modal.module.css";
+import styles from "./modal.module.css";
 
 const modalRoot = document.getElementById("react-modals");
 
 function Modal({ title, onClose, children }) {
 
-    function onKeyupEscape(e) {
-        if (e.key === "Escape") onClose();
-    }
+    const onKeyupEscape = useCallback(
+        (e) => {
+            if (e.key === "Escape") onClose();
+        }, [])
 
     useEffect(() => {
         document.addEventListener("keyup", onKeyupEscape);
@@ -23,10 +24,10 @@ function Modal({ title, onClose, children }) {
             (
                 <>
                     <ModalOverlay onClick={onClose} />
-                    <div className={modalStyles.modal}>
+                    <div className={styles.modal}>
                         <p className="text text_type_main-medium p-10">{title}</p>
                         {children}
-                        <CloseIcon className={modalStyles.close} onClick={onClose} />
+                        <CloseIcon className={styles.close} onClick={onClose} />
                     </div>
                 </>
             ),

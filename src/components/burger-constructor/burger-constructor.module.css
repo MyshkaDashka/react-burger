@@ -1,9 +1,3 @@
-.dragItem {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 .items {
     display: flex;
     flex-direction: column;

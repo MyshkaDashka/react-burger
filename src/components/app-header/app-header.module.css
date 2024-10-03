@@ -25,3 +25,8 @@
     display: flex;
     margin-left: auto;
 }
+
+.links {
+    text-decoration: inherit;
+    color: inherit;
+}

@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { AppHeader } from './components/app-header/app-header';
+import { BurgerIngredients } from './components/burger-ingredients/burger-ingredients';
+import { BurgerConstructor } from './components/burger-constructor/burger-constructor';
+
+const GET_BURGERS_INGREDIENTS_URL = `https://norma.nomoreparties.space/api/ingredients`;
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    setError(null);
+    const getBurgersIngredientsData = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(GET_BURGERS_INGREDIENTS_URL);
+        const data = await res.json();
+        setResults(data.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+    getBurgersIngredientsData();
+  }, []);
 
   return (
     <>
-      <Tab active={true} value={1} onClick={() => {}} />
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <AppHeader />
+      <main className='container'>
+        {loading ? (
+          <p className="text text_type_main-default text_color_inactive">
+            Поиск...
+          </p>
+        ) : error ? (
+          <p className="text text_type_main-default text_color_inactive">
+            Что-то пошло не так: {error.message}
+          </p>
+        ) : !!results?.length ? (
+          <>
+            <section className='columnsection pr-10'>
+              <BurgerIngredients data={results} />
+            </section>
+            <section className='columnsection'>
+              <BurgerConstructor data={results} />
+            </section>
+          </>
+        ) : (
+          <p>Нет результатов</p>
+        )}
+      </main>
     </>
   )
 }

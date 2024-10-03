@@ -1,0 +1,22 @@
+.title {
+    display: flex;
+    align-items: start;
+}
+
+.price {
+    display: flex;
+    flex-direction: row;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-basis: 50%;
+    position: relative;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,16 @@
+.modal {
+        width: 720px;
+        border-radius: 20px;
+        background-color: #1C1C21;
+        z-index: 100;
+
+        position: fixed;
+        top: 40px;
+        left: calc(50% - 360px);
+}
+
+.close {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+}

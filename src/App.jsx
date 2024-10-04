@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { AppHeader } from './components/app-header/app-header';
+import { BurgerIngredients } from './components/burger-ingredients/burger-ingredients';
+import { BurgerConstructor } from './components/burger-constructor/burger-constructor';
+import {getIngredients} from './utils/burger-api';
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    setError(null);
+    const getBurgersIngredientsData = async () => {
+      try {
+        const data = await getIngredients();
+        setResults(data.data);
+        setIsLoading(false);
+      } catch (err) {
+        setError(err);
+        setIsLoading(false);
+      }
+    };
+    getBurgersIngredientsData();
+  }, []);
 
   return (
     <>
-      <Tab active={true} value={1} onClick={() => {}} />
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <AppHeader />
+      <main className='container'>
+        {isLoading ? (
+          <p className="text text_type_main-default text_color_inactive">
+            Поиск...
+          </p>
+        ) : error ? (
+          <p className="text text_type_main-default text_color_inactive">
+            Что-то пошло не так: {error.message}
+          </p>
+        ) : !!results?.length ? (
+          <>
+            <section className='columnsection pr-10'>
+              <BurgerIngredients data={results} />
+            </section>
+            <section className='columnsection'>
+              <BurgerConstructor data={results} />
+            </section>
+          </>
+        ) : (
+          <p>Нет результатов</p>
+        )}
+      </main>
     </>
   )
 }

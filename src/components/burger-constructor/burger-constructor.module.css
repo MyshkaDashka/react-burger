@@ -1,0 +1,10 @@
+.items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 80vh;
+}
+
+.list {
+    overflow-y: auto;
+}

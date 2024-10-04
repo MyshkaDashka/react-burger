@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.block {
+    display: flex;
+    flex-basis: 33.3%;
+}
+
+.logo {
+    display: flex;
+    flex-basis: 33.3%;
+    justify-content: center;
+}
+
+.profile {
+    display: flex;
+    margin-left: auto;
+}
+
+.links {
+    text-decoration: inherit;
+    color: inherit;
+}

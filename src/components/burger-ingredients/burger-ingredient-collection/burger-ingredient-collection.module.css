@@ -1,0 +1,9 @@
+.title {
+    display: flex;
+    align-items: start;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+}

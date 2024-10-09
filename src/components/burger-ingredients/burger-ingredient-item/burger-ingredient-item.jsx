@@ -4,11 +4,10 @@ import { IngredientItemType } from "../../../utils/types";
 import styles from "./burger-ingredient-item.module.css";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
+import { useDrag } from "react-dnd";
 
 const BurgerConstructorIngredientItem = ({ item, onClick }) => {
-
     const { bun, burgerIngredients } = useSelector(store => store.burgerConstructor);
-
     const count = useMemo(
         () => {
             if (item.type === "bun") {
@@ -20,8 +19,16 @@ const BurgerConstructorIngredientItem = ({ item, onClick }) => {
         [bun, burgerIngredients]
     );
 
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: "ingredient",
+        item: item,
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+        }),
+    }));
+
     return (
-        <div className={styles.item} onClick={onClick}>
+        <div className={`${styles.item} ${isDragging && styles.ondrag}`} onClick={onClick} ref={drag}>
             {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
             <div className="p-4">
                 <img src={item.image} alt={item.name} />

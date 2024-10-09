@@ -1,4 +1,4 @@
-import { ADD_CONSTRUCTOR_BUN, ADD_CONSTRUCTOR_INGREDIENT, DELETE_CONSTRUCTOR_INGREDIENT, RESET_CONSTRUCTOR } from "../actions/burger-constructor";
+import { ADD_CONSTRUCTOR_BUN, ADD_CONSTRUCTOR_INGREDIENT, DELETE_CONSTRUCTOR_INGREDIENT, MOVE_INGREDIENT, RESET_CONSTRUCTOR } from "../actions/burger-constructor";
 
 const initialState = {
     bun: null,
@@ -33,6 +33,14 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                 ...state,
                 bun: null,
                 burgerIngredients: [],
+            };
+        }
+        case MOVE_INGREDIENT: {
+            const ingredients = [...state.burgerIngredients];
+            ingredients.splice(action.payload.toIndex, 0, ingredients.splice(action.payload.fromIndex, 1)[0]);
+            return {
+                ...state,
+                burgerIngredients: ingredients
             };
         }
         default: {

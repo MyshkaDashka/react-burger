@@ -5,6 +5,8 @@ import { BurgerIngredients } from './components/burger-ingredients/burger-ingred
 import { BurgerConstructor } from './components/burger-constructor/burger-constructor';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredientsData } from './services/actions/ingredients';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
   const dispatch = useDispatch();
@@ -18,26 +20,28 @@ function App() {
     <>
       <AppHeader />
       <main className='container'>
-        {ingredientsRequest ? (
-          <p className="text text_type_main-default text_color_inactive">
-            Поиск...
-          </p>
-        ) : ingredientsError && ingredientsError.length > 0 ? (
-          <p className="text text_type_main-default text_color_inactive">
-            Что-то пошло не так: {ingredientsError}
-          </p>
-        ) : !!ingredients?.length ? (
-          <>
-            <section className='columnsection pr-10'>
-              <BurgerIngredients data={ingredients} />
-            </section>
-            <section className='columnsection'>
-              <BurgerConstructor data={ingredients} />
-            </section>
-          </>
-        ) : (
-          <p>Нет результатов</p>
-        )}
+        <DndProvider backend={HTML5Backend}>
+          {ingredientsRequest ? (
+            <p className="text text_type_main-default text_color_inactive">
+              Поиск...
+            </p>
+          ) : ingredientsError && ingredientsError.length > 0 ? (
+            <p className="text text_type_main-default text_color_inactive">
+              Что-то пошло не так: {ingredientsError}
+            </p>
+          ) : !!ingredients?.length ? (
+            <>
+              <section className='columnsection pr-10'>
+                <BurgerIngredients data={ingredients} />
+              </section>
+              <section className='columnsection'>
+                <BurgerConstructor data={ingredients} />
+              </section>
+            </>
+          ) : (
+            <p>Нет результатов</p>
+          )}
+        </DndProvider>
       </main>
     </>
   )

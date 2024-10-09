@@ -1,9 +1,9 @@
-import { GET_INGREDIENTS_FAILED, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS } from "../actions/ingredients";
+import { GET_INGREDIENTS_ERROR, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS } from "../actions/ingredients";
 
 const initialState = {
     ingredients: [],
     ingredientsRequest: false,
-    ingredientsError: null,
+    ingredientsError: "",
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -21,7 +21,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                 ingredientsRequest: false
             };
         }
-        case GET_INGREDIENTS_FAILED: {
+        case GET_INGREDIENTS_ERROR: {
             return {
                 ...state,
                 ingredientsError: action.payload,

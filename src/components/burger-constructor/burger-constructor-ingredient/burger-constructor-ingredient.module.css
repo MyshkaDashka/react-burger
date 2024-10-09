@@ -3,3 +3,7 @@
     flex-direction: row;
     align-items: center;
 }
+
+.ondrag {
+    opacity: 0.5;
+}

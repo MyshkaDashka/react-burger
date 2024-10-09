@@ -4,45 +4,62 @@ import { BurgerConstructorTotal } from "./burger-constructor-total/burger-constr
 import { BurgerConstructorIngredient } from "./burger-constructor-ingredient/burger-constructor-ingredient";
 import { IngredientItemType } from "./../../utils/types";
 import styles from "./burger-constructor.module.css";
+import { useDispatch, useSelector } from "react-redux";
 
-function BurgerConstructor({ data }) {
-
-    const bunElement = data.filter(e => e.type === "bun")[0];
-
-    const getSelectedIngredients = () => {
-        return data.filter(elem => elem.type != "bun");
-    }
+function BurgerConstructor() {
+    const data = useSelector(store => store.burgerConstructor);
+    const dispatch = useDispatch();
 
     return (
         <>
-            {!!data?.length &&
+            {data &&
                 <div className={`${styles.items} pt-25`}>
-                    <div className="pr-4">
-                        <ConstructorElement
-                            type="top"
-                            isLocked={true}
-                            text={bunElement.name + "(верх)"}
-                            price={bunElement.price}
-                            thumbnail={bunElement.image}
-                        />
-                    </div>
+                    {data.bun ?
+                        <div className="pr-4">
+                            <ConstructorElement
+                                type="top"
+                                isLocked={true}
+                                text={data.bun.name + "(верх)"}
+                                price={data.bun.price}
+                                thumbnail={data.bun.image}
+                            />
+                        </div>
+                        :
+                        <div className={styles.emptybuntop}>
+                            <p>Выберите булки</p>
+                        </div>
+                    }
                     <div className={`${styles.items} ${styles.list}`}>
-                        {getSelectedIngredients().map((item) => (
-                            <BurgerConstructorIngredient key={item._id} item={item} />
-                        ))}
+                        {data.burgerIngredients?.length > 0 ?
+                            data.burgerIngredients.map((item) => (
+                                <BurgerConstructorIngredient key={item.key} item={item} />
+                            ))
+                            :
+                            <div className={styles.emptyitem}>
+                                <p>Выберите начинку</p>
+                            </div>
+                        }
                     </div>
-                    <div className="pr-4 pb-10">
-                        <ConstructorElement
-                            type="bottom"
-                            isLocked={true}
-                            text={bunElement.name + "(низ)"}
-                            price={bunElement.price}
-                            thumbnail={bunElement.image}
-                        />
-                    </div>
-                    <BurgerConstructorTotal />
+                    {data.bun ?
+                        <div className="pr-4">
+                            <ConstructorElement
+                                type="bottom"
+                                isLocked={true}
+                                text={data.bun.name + "(низ)"}
+                                price={data.bun.price}
+                                thumbnail={data.bun.image}
+                            />
+                        </div>
+                        :
+                        <div className={styles.emptybunbottom}>
+                            <p>Выберите булки</p>
+                        </div>
+                    }
                 </div>
             }
+            <div className="pt-10">
+                <BurgerConstructorTotal />
+            </div>
         </>
     )
 }

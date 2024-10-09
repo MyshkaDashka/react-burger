@@ -1,50 +1,38 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import { AppHeader } from './components/app-header/app-header';
 import { BurgerIngredients } from './components/burger-ingredients/burger-ingredients';
 import { BurgerConstructor } from './components/burger-constructor/burger-constructor';
-import {getIngredients} from './utils/burger-api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredientsData } from './services/actions/ingredients';
 
 function App() {
-
-  const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
+  const dispatch = useDispatch();
+  const { ingredientsRequest, ingredientsError, ingredients } = useSelector(state => state.ingredients);
 
   useEffect(() => {
-    setError(null);
-    const getBurgersIngredientsData = async () => {
-      try {
-        const data = await getIngredients();
-        setResults(data.data);
-        setIsLoading(false);
-      } catch (err) {
-        setError(err);
-        setIsLoading(false);
-      }
-    };
-    getBurgersIngredientsData();
+    dispatch(getIngredientsData());
   }, []);
 
   return (
     <>
       <AppHeader />
       <main className='container'>
-        {isLoading ? (
+        {ingredientsRequest ? (
           <p className="text text_type_main-default text_color_inactive">
             Поиск...
           </p>
-        ) : error ? (
+        ) : ingredientsError && ingredientsError.length > 0 ? (
           <p className="text text_type_main-default text_color_inactive">
-            Что-то пошло не так: {error.message}
+            Что-то пошло не так: {ingredientsError}
           </p>
-        ) : !!results?.length ? (
+        ) : !!ingredients?.length ? (
           <>
             <section className='columnsection pr-10'>
-              <BurgerIngredients data={results} />
+              <BurgerIngredients data={ingredients} />
             </section>
             <section className='columnsection'>
-              <BurgerConstructor data={results} />
+              <BurgerConstructor data={ingredients} />
             </section>
           </>
         ) : (

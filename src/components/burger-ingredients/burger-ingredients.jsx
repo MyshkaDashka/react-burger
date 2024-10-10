@@ -1,12 +1,12 @@
 import { useCallback, useState, useMemo, useRef } from "react";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientCollection } from "./burger-ingredient-collection/burger-ingredient-collection";
-import { IngredientItemType } from "./../../utils/types";
 import styles from "./burger-ingredients.module.css";
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients() {
     const [current, setCurrent] = useState('bun');
+    const { ingredients } = useSelector(state => state.ingredients);
 
     const tabsRef = useRef(null);
     const bunRef = useRef(null);
@@ -14,8 +14,8 @@ function BurgerIngredients({ data }) {
     const sauceRef = useRef(null);
 
     const filterBurgersIngredients = useCallback(
-        (type) => data.filter(e => e.type === type),
-        [data]
+        (type) => ingredients.filter(e => e.type === type),
+        [ingredients]
     )
 
     const buns = useMemo(
@@ -62,7 +62,7 @@ function BurgerIngredients({ data }) {
                     Соберите бургер
                 </p>
             </div>
-            <div style={{ display: 'flex' }} ref={tabsRef}>
+            <div className={styles.tabs} ref={tabsRef}>
                 <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
                     Булки
                 </Tab>
@@ -73,7 +73,7 @@ function BurgerIngredients({ data }) {
                     Начинки
                 </Tab>
             </div>
-            {!!data?.length &&
+            {!!ingredients?.length &&
                 <div className={styles.container} onScroll={onScrollIngredients}>
                     <div ref={bunRef}>
                         <BurgerIngredientCollection name="Булки" data={buns} />
@@ -88,10 +88,6 @@ function BurgerIngredients({ data }) {
             }
         </>
     )
-}
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(IngredientItemType).isRequired
 }
 
 export { BurgerIngredients };

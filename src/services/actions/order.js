@@ -13,13 +13,11 @@ export function sendOrderData(ids) {
             type: SEND_ORDER_REQUEST
         });
         sendOrder(ids).then(res => {
-            if (res && res.success) {
-                dispatch({
-                    type: SEND_ORDER_SUCCESS,
-                    order: res.order
-                });
-                dispatch(resetConstructor());
-            }
+            dispatch({
+                type: SEND_ORDER_SUCCESS,
+                order: res.order
+            });
+            dispatch(resetConstructor());
         })
             .catch(error => {
                 dispatch({

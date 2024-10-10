@@ -42,6 +42,10 @@ function BurgerConstructorTotal() {
         setShowOrderDetails(false);
     }
 
+    const isOrderButtonDisabled = () => {
+        return bun ? false : true;
+    }
+
     return (
         <>
             {showOrderDetails &&
@@ -53,7 +57,7 @@ function BurgerConstructorTotal() {
                 <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
                 <CurrencyIcon />
                 <div className="pl-10">
-                    <Button htmlType="button" type="primary" size="large" onClick={() => sendOrder()}>
+                    <Button htmlType="button" type="primary" size="large" onClick={() => sendOrder()} disabled={isOrderButtonDisabled()}>
                         Оформить заказ
                     </Button>
                 </div>

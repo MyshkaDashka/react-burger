@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import './App.css'
-import { AppHeader } from './components/app-header/app-header';
-import { BurgerIngredients } from './components/burger-ingredients/burger-ingredients';
-import { BurgerConstructor } from './components/burger-constructor/burger-constructor';
+import { AppHeader } from '../app-header/app-header';
+import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
+import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIngredientsData } from './services/actions/ingredients';
+import { getIngredientsData } from '../../services/actions/ingredients';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import styles from "./app.module.css"
 
 function App() {
   const dispatch = useDispatch();
@@ -17,9 +17,9 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className={styles.page}>
       <AppHeader />
-      <main className='container'>
+      <main className={styles.container}>
         <DndProvider backend={HTML5Backend}>
           {ingredientsRequest ? (
             <p className="text text_type_main-default text_color_inactive">
@@ -31,11 +31,11 @@ function App() {
             </p>
           ) : !!ingredients?.length ? (
             <>
-              <section className='columnsection pr-10'>
-                <BurgerIngredients data={ingredients} />
+              <section className={`${styles.columnsection} pr-10`}>
+                <BurgerIngredients />
               </section>
-              <section className='columnsection'>
-                <BurgerConstructor data={ingredients} />
+              <section className={styles.columnsection}>
+                <BurgerConstructor />
               </section>
             </>
           ) : (
@@ -43,7 +43,7 @@ function App() {
           )}
         </DndProvider>
       </main>
-    </>
+    </div>
   )
 }
 

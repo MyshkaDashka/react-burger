@@ -5,6 +5,32 @@
     max-height: 80vh;
 }
 
+.emptybuntop {
+    background-color: #2f2f37;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.emptybunbottom {
+    background-color: #2f2f37;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.emptyitem {
+    background-color: #2f2f37;
+    border-radius: 30px;
+}
+
 .list {
     overflow-y: auto;
+}
+
+.candrop {
+    opacity: 0.5;
+    border: 2px dashed cornflowerblue
 }

@@ -16,7 +16,7 @@ function Modal({ title, onClose, children }) {
 
     useEffect(() => {
         document.addEventListener("keyup", onKeyupEscape);
-        return () => document.addEventListener("keyup", onKeyupEscape);
+        return () => document.removeEventListener("keyup", onKeyupEscape);
     }, [onKeyupEscape]);
 
     return (

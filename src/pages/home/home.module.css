@@ -1,0 +1,7 @@
+ .container {
+     display: flex;
+ }
+
+ .columnsection {
+     flex-basis: 50%;
+ }

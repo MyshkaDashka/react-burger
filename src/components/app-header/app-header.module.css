@@ -26,7 +26,6 @@
     margin-left: auto;
 }
 
-.links {
-    text-decoration: inherit;
-    color: inherit;
+.active {
+    color: white;
 }

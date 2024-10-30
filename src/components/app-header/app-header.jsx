@@ -1,38 +1,43 @@
 
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from "./app-header.module.css"
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import styles from "./app-header.module.css";
 
 function AppHeader() {
+    const user = useSelector(store => store.user.user);
     return (
         <header className={`${styles.header} p-4`}>
             <nav className={styles.block}>
-                <div className={`${styles.item} p-5`}>
-                    <BurgerIcon className='pr-2' />
-                    <p className="text text_type_main-default ">
-                        <a className={styles.links} href="">
+                <NavLink to="/">
+                    {({ isActive }) =>
+                        <div className={`${styles.item} p-5 ${isActive ? styles.active : "text_color_inactive"}`}>
+                            <BurgerIcon className='pr-2' type={isActive ? "primary" : "secondary"} />
                             Конструктор
-                        </a>
-                    </p>
-                </div>
-                <div className={`${styles.item} text_color_inactive p-5`}>
-                    <ListIcon className='pr-2' type='disabled' />
-                    <p className="text text_type_main-default">
-                        <a className={styles.links} href="">
+                        </div>
+                    }
+                </NavLink>
+                <NavLink to="/orders">
+                    {({ isActive }) =>
+                        <div className={`${styles.item} p-5 ${isActive ? styles.active : "text_color_inactive"}`}>
+                            <ListIcon className='pr-2' type={isActive ? "primary" : "secondary"} />
                             Лента заказов
-                        </a>
-                    </p>
-                </div>
+                        </div>
+                    }
+                </NavLink>
             </nav>
             <div className={styles.logo}>
                 <Logo />
             </div>
-            <nav className={`${styles.profile} text_color_inactive p-5`}>
-                <ProfileIcon className='pr-2' type='disabled' />
-                <p className="text text_type_main-default">
-                    <a className={styles.links} href="">
-                        Личный кабинет
-                    </a>
-                </p>
+            <nav className={`${styles.profile}`}>
+                <NavLink to="/profile" >
+                    {({ isActive }) =>
+                        <div className={`${styles.item} p-5 ${isActive ? styles.active : "text_color_inactive"}`}>
+                            <ProfileIcon className='pr-2' type={isActive ? "primary" : "secondary"} />
+                            {user ? user.name : "Личный кабинет"}
+                        </div>
+                    }
+                </NavLink>
             </nav>
         </header>
     )

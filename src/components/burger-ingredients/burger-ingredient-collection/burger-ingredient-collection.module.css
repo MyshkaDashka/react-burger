@@ -7,3 +7,13 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.link:hover,
+.active:hover {
+    color: #fff;
+}

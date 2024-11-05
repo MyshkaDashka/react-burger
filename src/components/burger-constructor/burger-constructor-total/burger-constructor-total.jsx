@@ -5,11 +5,14 @@ import { OrderDetails } from "../../order-details/order-details";
 import styles from "./burger-constructor-total.module.css"
 import { useDispatch, useSelector } from "react-redux";
 import { resetOrder, sendOrderData } from "../../../services/actions/order";
+import { useNavigate } from "react-router-dom";
 
 function BurgerConstructorTotal() {
     const [showOrderDetails, setShowOrderDetails] = useState(false);
     const { bun, burgerIngredients } = useSelector(store => store.burgerConstructor);
+    const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const totalPrice = useMemo(
         () => {
@@ -33,8 +36,12 @@ function BurgerConstructorTotal() {
     );
 
     const sendOrder = () => {
-        dispatch(sendOrderData(getIdsFromConstructor));
-        setShowOrderDetails(true);
+        if (user) {
+            dispatch(sendOrderData(getIdsFromConstructor));
+            setShowOrderDetails(true);
+        } else {
+            navigate("/login");
+        }
     }
 
     const closeOrderDetails = () => {

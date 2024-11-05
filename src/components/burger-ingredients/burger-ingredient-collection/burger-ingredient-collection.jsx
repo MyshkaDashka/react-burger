@@ -1,30 +1,28 @@
 import PropTypes from "prop-types";
-import { Modal } from "../../modal/modal";
-import { BurgerConstructorIngredientItem } from "../burger-ingredient-item/burger-ingredient-item";
-import { IngredientDetails } from "../../ingredient-details/ingredient-details";
+import { BurgerIngredientItem } from "../burger-ingredient-item/burger-ingredient-item";
 import { IngredientItemType } from "./../../../utils/types";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./burger-ingredient-collection.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { resetIngredientDetails, setIngredientDetails } from "../../../services/actions/ingredient-details";
 
 function BurgerIngredientCollection({ name, data }) {
-    const dispatch = useDispatch();
-    const selectedIngredient = useSelector(state => state.ingredientDetails.selectedIngredient);
+    let location = useLocation();
 
     return (
         <>
-            {selectedIngredient &&
-                <Modal title="Детали ингредиента" onClose={() => dispatch(resetIngredientDetails())}>
-                    <IngredientDetails item={selectedIngredient}></IngredientDetails>
-                </Modal>
-            }
             <p className={`${styles.title} text text_type_main-medium pt-10`}>
                 {name}
             </p>
             <div className={styles.list}>
                 {
                     data.map((item) => (
-                        <BurgerConstructorIngredientItem key={item._id} item={item} onClick={() => dispatch(setIngredientDetails(item))} />
+                        <Link
+                            key={item._id}
+                            to={`/ingredients/${item._id}`}
+                            state={{ backgroundLocation: location }}
+                            className={styles.link}
+                        >
+                            <BurgerIngredientItem key={item._id} item={item} />
+                        </Link>
                     ))
                 }
             </div>

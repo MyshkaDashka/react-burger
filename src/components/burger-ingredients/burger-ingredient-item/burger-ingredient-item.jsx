@@ -1,12 +1,11 @@
-import PropTypes from "prop-types";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientItemType } from "../../../utils/types";
-import styles from "./burger-ingredient-item.module.css";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { useDrag } from "react-dnd";
+import styles from "./burger-ingredient-item.module.css";
 
-const BurgerConstructorIngredientItem = ({ item, onClick }) => {
+const BurgerIngredientItem = ({ item }) => {
     const { bun, burgerIngredients } = useSelector(store => store.burgerConstructor);
     const count = useMemo(
         () => {
@@ -28,7 +27,7 @@ const BurgerConstructorIngredientItem = ({ item, onClick }) => {
     }));
 
     return (
-        <div className={`${styles.item} ${isDragging && styles.ondrag}`} onClick={onClick} ref={drag}>
+        <div className={`${styles.item} ${isDragging && styles.ondrag}`} ref={drag}>
             {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
             <div className="p-4">
                 <img src={item.image} alt={item.name} />
@@ -46,9 +45,8 @@ const BurgerConstructorIngredientItem = ({ item, onClick }) => {
     )
 };
 
-BurgerConstructorIngredientItem.propTypes = {
+BurgerIngredientItem.propTypes = {
     item: IngredientItemType.isRequired,
-    onClick: PropTypes.func
 }
 
-export { BurgerConstructorIngredientItem };
+export { BurgerIngredientItem };

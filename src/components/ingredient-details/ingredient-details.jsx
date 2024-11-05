@@ -20,20 +20,20 @@ function IngredientDetails() {
             <div className={`${styles.section} pb-15`}>
                 <div className={styles.composition}>
                     <p className="text text_type_main-default text_color_inactive">Калории, ккал</p>
-                    <p className="text text_type_digits-medium text_color_inactive">{selectedIngredient?.proteins}</p>
+                    <p className="text text_type_digits-medium text_color_inactive">{selectedIngredient?.calories}</p>
                 </div>
 
                 <div className={styles.composition}>
                     <p className="text text_type_main-default text_color_inactive">Белки, г</p>
-                    <p className="text text_type_digits-medium text_color_inactive">{selectedIngredient?.fat}</p>
+                    <p className="text text_type_digits-medium text_color_inactive">{selectedIngredient?.proteins}</p>
                 </div>
                 <div className={styles.composition}>
                     <p className="text text_type_main-default text_color_inactive">Жиры, г</p>
-                    <p className="text text_type_digits-medium text_color_inactive">{selectedIngredient?.carbohydrates}</p>
+                    <p className="text text_type_digits-medium text_color_inactive">{selectedIngredient?.fat}</p>
                 </div>
                 <div className={styles.composition}>
                     <p className="text text_type_main-default text_color_inactive">Углеводы, г</p>
-                    <p className="text text_type_digits-medium text_color_inactive">{selectedIngredient?.calories}</p>
+                    <p className="text text_type_digits-medium text_color_inactive">{selectedIngredient?.carbohydrates}</p>
                 </div>
             </div>
         </div>

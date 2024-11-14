@@ -1,16 +1,24 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerConstructorTotal } from "./burger-constructor-total/burger-constructor-total";
 import { BurgerConstructorIngredient } from "./burger-constructor-ingredient/burger-constructor-ingredient";
-import styles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
+//@ts-ignore
 import { addConstructorBun, addConstructorIngredient } from "../../services/actions/burger-constructor";
+import styles from "./burger-constructor.module.css";
+import { TIngredientItem } from "../../utils/types";
 
-function BurgerConstructor() {
+type TDropCollectedProps = {
+    canDropBun: boolean;
+    canDropIngr: boolean;
+}
+
+function BurgerConstructor(): React.JSX.Element {
+    //@ts-ignore
     const data = useSelector(store => store.burgerConstructor);
     const dispatch = useDispatch();
 
-    const [{ canDropBun, canDropIngr }, drop] = useDrop(() => ({
+    const [{ canDropBun, canDropIngr }, drop] = useDrop<TIngredientItem, unknown, TDropCollectedProps>(() => ({
         accept: "ingredient",
         drop(item) {
             item.type === 'bun' ?
@@ -44,8 +52,8 @@ function BurgerConstructor() {
                     }
                     <div className={`${styles.items} ${styles.list}`}>
                         {data.burgerIngredients?.length > 0 ?
-                            data.burgerIngredients.map((item,index) => (
-                                <BurgerConstructorIngredient key={item.key} item={item} index={index} id={item.key}/>
+                            data.burgerIngredients.map((item: TIngredientItem & { key: string }, index: number) => (
+                                <BurgerConstructorIngredient key={item.key} item={item} index={index} id={item.key} />
                             ))
                             :
                             <div className={`${styles.emptyitem} ${canDropIngr && styles.candrop}`}>

@@ -1,21 +1,23 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+//@ts-ignore
 import { updateUser } from "../../../services/actions/auth";
 import styles from "./profile-details.module.css";
 
-function ProfileDetailsPage() {
+function ProfileDetailsPage() :React.JSX.Element{
+    //@ts-ignore
     const user = useSelector(store => store.user.user);
     const [userForm, setUserForm] = useState(user);
     const [isFormChanged, setIsFormChanged] = useState(false);
     const dispatch = useDispatch();
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         dispatch(updateUser(userForm));
     }
 
-    const onChange = (e) => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserForm({ ...userForm, [e.target.name]: e.target.value });
         setIsFormChanged(true);
     }

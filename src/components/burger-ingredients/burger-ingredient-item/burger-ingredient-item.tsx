@@ -1,24 +1,29 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientItemType } from "../../../utils/types";
+import { TIngredientItem } from "../../../utils/types";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { useDrag } from "react-dnd";
 import styles from "./burger-ingredient-item.module.css";
 
-const BurgerIngredientItem = ({ item }) => {
+type TBurgerIngredientItemProps = {
+    item: TIngredientItem
+}
+
+const BurgerIngredientItem = ({ item }: TBurgerIngredientItemProps): React.JSX.Element => {
+    //@ts-ignore
     const { bun, burgerIngredients } = useSelector(store => store.burgerConstructor);
     const count = useMemo(
         () => {
             if (item.type === "bun") {
                 return bun?._id === item._id ? 2 : 0;
             } else {
-                return burgerIngredients.filter(elem => elem._id === item._id).length;
+                return burgerIngredients.filter((elem: TIngredientItem) => elem._id === item._id).length;
             }
         },
         [bun, burgerIngredients]
     );
 
-    const [{ isDragging }, drag] = useDrag(() => ({
+    const [{ isDragging }, drag] = useDrag<TIngredientItem, unknown, { isDragging: boolean }>(() => ({
         type: "ingredient",
         item: item,
         collect: (monitor) => ({
@@ -36,7 +41,7 @@ const BurgerIngredientItem = ({ item }) => {
                 <p className="text text_type_main-small p-1">
                     {item.price}
                 </p>
-                <CurrencyIcon />
+                <CurrencyIcon type="primary" />
             </div>
             <p className="text text_type_main-small">
                 {item.name}
@@ -44,9 +49,5 @@ const BurgerIngredientItem = ({ item }) => {
         </div>
     )
 };
-
-BurgerIngredientItem.propTypes = {
-    item: IngredientItemType.isRequired,
-}
 
 export { BurgerIngredientItem };

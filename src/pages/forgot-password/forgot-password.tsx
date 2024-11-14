@@ -1,19 +1,19 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from './forgot-password.module.css';
 import { passwordReset } from "../../utils/burger-api";
 
-function ForgotPasswordPage() {
+function ForgotPasswordPage(): React.JSX.Element {
     const [email, setEmail] = useState("");
-    const [error, setError] = useState();
+    const [error, setError] = useState<string | null>();
     const navigate = useNavigate();
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         passwordReset(email)
             .then(() => {
-                localStorage.setItem("resetPassword", true);
+                localStorage.setItem("resetPassword", "true");
                 navigate('/reset-password')
             })
             .catch((err) => setError(err.message));

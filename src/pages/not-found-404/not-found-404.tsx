@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from "./not-found-404.module.css"
 
-function NotFound404Page() {
+function NotFound404Page(): React.JSX.Element {
     return (
         <div className={styles.container}>
             <div className={styles.content}>

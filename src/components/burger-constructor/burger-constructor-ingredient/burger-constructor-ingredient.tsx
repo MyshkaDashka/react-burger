@@ -1,21 +1,40 @@
 import { useRef } from "react";
-import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientItemType } from "../../../utils/types";
+import { TIngredientItem } from "../../../utils/types";
+//@ts-ignore
 import { deleteConstructorIngredient, moveIngredient } from "../../../services/actions/burger-constructor";
+import { Identifier } from "dnd-core";
 import styles from "./burger-constructor-ingredient.module.css";
 
-const BurgerConstructorIngredient = ({ id, index, item }) => {
+type TBurgerConstructorIngredientProps = {
+    id: string;
+    index: number;
+    item: TIngredientItem & { key: string };
+}
+
+type TDragObject = {
+    id: string;
+    index: number;
+}
+type TDragCollectedProps = {
+    isDragging: boolean;
+}
+
+type TDropCollectedProps = {
+    handlerId: Identifier | null;
+}
+
+const BurgerConstructorIngredient = ({ id, index, item }: TBurgerConstructorIngredientProps): React.JSX.Element => {
     const dispatch = useDispatch();
 
     const deleteFromConstructor = () => {
         return dispatch(deleteConstructorIngredient(item.key));
     }
+    const ref = useRef<HTMLDivElement>(null);
 
-    const ref = useRef(null)
-    const [{ handlerId }, drop] = useDrop({
+    const [{ handlerId }, drop] = useDrop<TDragObject, unknown, TDropCollectedProps>({
         accept: "item-constr-ingr",
         collect(monitor) {
             return {
@@ -36,6 +55,9 @@ const BurgerConstructorIngredient = ({ id, index, item }) => {
             const hoverMiddleY =
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const clientOffset = monitor.getClientOffset()
+            if (!clientOffset) {
+                return;
+            }
             const hoverClientY = clientOffset.y - hoverBoundingRect.top
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return
@@ -47,7 +69,8 @@ const BurgerConstructorIngredient = ({ id, index, item }) => {
             item.index = hoverIndex
         },
     })
-    const [{ isDragging }, drag] = useDrag({
+
+    const [{ isDragging }, drag] = useDrag<TDragObject, unknown, TDragCollectedProps>({
         type: "item-constr-ingr",
         item: () => {
             return { id, index }
@@ -59,9 +82,9 @@ const BurgerConstructorIngredient = ({ id, index, item }) => {
     drag(drop(ref));
 
     return (
-        <div className={`${styles.dragItem} ${isDragging && styles.ondrag}`} ref={ref}>
+        <div className={`${styles.dragItem} ${isDragging && styles.ondrag}`} ref={ref} data-handler-id={handlerId}>
             <div className="pr-2">
-                <DragIcon />
+                <DragIcon type="primary" />
             </div>
             <ConstructorElement
                 text={item.name}
@@ -72,11 +95,5 @@ const BurgerConstructorIngredient = ({ id, index, item }) => {
         </div>
     )
 };
-
-BurgerConstructorIngredient.propTypes = {
-    item: IngredientItemType.isRequired,
-    id: PropTypes.string,
-    index: PropTypes.number,
-}
 
 export { BurgerConstructorIngredient };

@@ -1,20 +1,22 @@
-import { useCallback, useState, useMemo, useRef } from "react";
+import React, { useCallback, useState, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientCollection } from "./burger-ingredient-collection/burger-ingredient-collection";
 import styles from "./burger-ingredients.module.css";
+import { TIngredientItem } from "../../utils/types";
 
-function BurgerIngredients() {
+function BurgerIngredients(): React.JSX.Element {
     const [current, setCurrent] = useState('bun');
+    //@ts-ignore
     const { ingredients } = useSelector(state => state.ingredients);
 
-    const tabsRef = useRef(null);
-    const bunRef = useRef(null);
-    const mainRef = useRef(null);
-    const sauceRef = useRef(null);
+    const tabsRef = useRef<HTMLDivElement>(null);
+    const bunRef = useRef<HTMLDivElement>(null);
+    const mainRef = useRef<HTMLDivElement>(null);
+    const sauceRef = useRef<HTMLDivElement>(null);
 
     const filterBurgersIngredients = useCallback(
-        (type) => ingredients.filter(e => e.type === type),
+        (type: string) => ingredients.filter((e: TIngredientItem) => e.type === type),
         [ingredients]
     )
 
@@ -34,11 +36,11 @@ function BurgerIngredients() {
     )
 
     const onScrollIngredients = () => {
-        const bunCoordTop = bunRef.current.getBoundingClientRect().top;
-        const mainCoordTop = mainRef.current.getBoundingClientRect().top;
-        const sauceCoordTop = sauceRef.current.getBoundingClientRect().top;
+        const bunCoordTop = bunRef.current!.getBoundingClientRect().top;
+        const mainCoordTop = mainRef.current!.getBoundingClientRect().top;
+        const sauceCoordTop = sauceRef.current!.getBoundingClientRect().top;
 
-        const tabCoordBottom = tabsRef.current.getBoundingClientRect().bottom;
+        const tabCoordBottom = tabsRef.current!.getBoundingClientRect().bottom;
 
         const diffBun = Math.abs(tabCoordBottom - bunCoordTop);
         const diffMain = Math.abs(tabCoordBottom - mainCoordTop);

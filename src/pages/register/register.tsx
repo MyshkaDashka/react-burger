@@ -1,23 +1,27 @@
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import { register } from "../../utils/burger-api";
 import styles from './register.module.css';
 
-function RegisterPage() {
+function RegisterPage(): React.JSX.Element {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState('');
     const [hidePass, setHidePass] = useState(true);
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const onIconClick = () => {
-        setTimeout(() => inputRef.current.focus(), 0)
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus()
+            }
+        }, 0)
         setHidePass(!hidePass);
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         register({ email, password, name });
     }

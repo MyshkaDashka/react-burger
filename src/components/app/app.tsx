@@ -1,25 +1,28 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppHeader } from '../app-header/app-header';
 import { HomePage } from '../../pages/home/home';
 import { NotFound404Page } from '../../pages/not-found-404/not-found-404';
+//@ts-ignore
 import { getIngredientsData } from '../../services/actions/ingredients';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { Modal } from '../modal/modal';
-import styles from "./app.module.css"
 import { LoginPage } from '../../pages/login/login';
 import { RegisterPage } from '../../pages/register/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password/reset-password';
+//@ts-ignore
 import { checkUserAuth } from '../../services/actions/auth';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route/protected-route';
 import { ProfilePage } from '../../pages/profile/profile';
 import { OrdersPage } from '../../pages/orders/orders';
 import { ProfileDetailsPage } from '../../pages/profile/profile-details/profile-details';
+import styles from "./app.module.css";
 
-function App() {
+function App(): React.JSX.Element {
   const dispatch = useDispatch();
+  //@ts-ignore
   const { ingredientsRequest, ingredientsError, ingredients } = useSelector(state => state.ingredients);
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,8 +36,7 @@ function App() {
     dispatch(checkUserAuth());
   }, []);
 
-  const onCloseModal = e => {
-    e.stopPropagation();
+  const onCloseModal = () => {
     navigate("/");
   };
 
@@ -88,4 +90,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

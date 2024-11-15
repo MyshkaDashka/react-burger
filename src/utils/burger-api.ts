@@ -1,18 +1,19 @@
+import { TAuthUserResponce, TIngredientListResponce, TLogoutResponce, TOrderResponce, TRegisterResponce, TResetPasswordResponce, TTokenResponce, TUserData } from "./types";
 
 export const BASE_URL = `https://norma.nomoreparties.space/api/`;
 
-const checkResponse = (res) => {
+const checkResponse = <T>(res: Response): Promise<T> => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-const checkSuccess = (res) => {
+const checkSuccess = <T extends { success: boolean }>(res: T) => {
     return res && res.success ? res : Promise.reject(res);
 };
 
-const request = (endpoint, options) => {
+const request = <T extends { success: boolean }>(endpoint: string, options?: RequestInit) => {
     return fetch(`${BASE_URL}${endpoint}`, options)
-        .then(checkResponse)
-        .then(checkSuccess);
+        .then(checkResponse<T>)
+        .then(checkSuccess<T>);
 };
 
 export const refreshToken = () => {
@@ -25,7 +26,7 @@ export const refreshToken = () => {
             token: localStorage.getItem("refreshToken"),
         }),
     })
-        .then(checkResponse)
+        .then(checkResponse<TTokenResponce>)
         // !! Важно для обновления токена в мидлваре, чтобы запись
         // была тут, а не в fetchWithRefresh
         .then((refreshData) => {
@@ -38,39 +39,39 @@ export const refreshToken = () => {
         });
 };
 
-export const fetchWithRefresh = async (endpoint, options) => {
+export const fetchWithRefresh = async <T>(endpoint: string, options: RequestInit) => {
     const url = `${BASE_URL}${endpoint}`;
     try {
         const res = await fetch(url, options);
-        return await checkResponse(res);
+        return await checkResponse<T>(res);
     } catch (err) {
-        if (err.message === "jwt expired") {
+        if (err instanceof Error && err.message === "jwt expired") {
             const refreshData = await refreshToken(); //обновляем токен
-            options.headers.authorization = refreshData.accessToken;
+            (options.headers as Record<string, string>).authorization = refreshData.accessToken;
             const res = await fetch(url, options); //повторяем запрос
-            return await checkResponse(res);
+            return await checkResponse<T>(res);
         } else {
             return Promise.reject(err);
         }
     }
 };
 
-export const getIngredients = () => request("ingredients");
+export const getIngredients = () => request<TIngredientListResponce>("ingredients");
 
-const orderOptions = (ids) => {
+const orderOptions = (ids: Array<string>): RequestInit => {
     return {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             Authorization: localStorage.getItem("accessToken")
-        },
+        } as HeadersInit,
         body: JSON.stringify({ "ingredients": ids }),
     }
 }
 
-export const sendOrder = (ids) => fetchWithRefresh("orders", orderOptions(ids));
+export const sendOrder = (ids: Array<string>) => fetchWithRefresh<TOrderResponce>("orders", orderOptions(ids));
 
-const passwordResetOptions = (email) => {
+const passwordResetOptions = (email: string) => {
     return {
         method: 'POST',
         headers: {
@@ -80,9 +81,9 @@ const passwordResetOptions = (email) => {
     }
 }
 
-export const passwordReset = (email) => request("password-reset", passwordResetOptions(email));
+export const passwordReset = (email: string) => request<TResetPasswordResponce>("password-reset", passwordResetOptions(email));
 
-const passwordResetResetOptions = (password, code) => {
+const passwordResetResetOptions = (password: string, code: string) => {
     return {
         method: 'POST',
         headers: {
@@ -92,9 +93,9 @@ const passwordResetResetOptions = (password, code) => {
     }
 }
 
-export const passwordResetReset = (password, code) => request("password-reset/reset", passwordResetResetOptions(password, code));
+export const passwordResetReset = (password: string, code: string) => request<TResetPasswordResponce>("password-reset/reset", passwordResetResetOptions(password, code));
 
-const registerOptions = (data) => {
+const registerOptions = (data: TUserData) => {
     return {
         method: 'POST',
         headers: {
@@ -104,7 +105,7 @@ const registerOptions = (data) => {
     }
 }
 
-export const register = (data) => request("auth/register", registerOptions(data));
+export const register = (data: TUserData) => request<TRegisterResponce>("auth/register", registerOptions(data));
 
 const getUserOptions = () => {
     return {
@@ -112,13 +113,13 @@ const getUserOptions = () => {
         headers: {
             'Content-Type': 'application/json',
             Authorization: localStorage.getItem("accessToken")
-        },
+        } as HeadersInit,
     }
 }
 
-export const getAuthUser = () => fetchWithRefresh("auth/user", getUserOptions());
+export const getAuthUser = () => fetchWithRefresh<TAuthUserResponce>("auth/user", getUserOptions());
 
-const loginUserOptions = (email, password) => {
+const loginUserOptions = (email: string, password: string) => {
     return {
         method: 'POST',
         headers: {
@@ -128,20 +129,20 @@ const loginUserOptions = (email, password) => {
     }
 }
 
-export const loginUser = (email, password) => request("auth/login", loginUserOptions(email, password));
+export const loginUser = (email: string, password: string) => request<TRegisterResponce>("auth/login", loginUserOptions(email, password));
 
-const updateUserOptions = (user) => {
+const updateUserOptions = (user: TUserData) => {
     return {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             Authorization: localStorage.getItem("accessToken")
-        },
+        } as HeadersInit,
         body: JSON.stringify(user),
     }
 }
 
-export const updateUserData = (user) => fetchWithRefresh("auth/user", updateUserOptions(user));
+export const updateUserData = (user: TUserData) => fetchWithRefresh<TAuthUserResponce>("auth/user", updateUserOptions(user));
 
 const logoutOptions = () => {
     return {
@@ -153,4 +154,4 @@ const logoutOptions = () => {
     }
 }
 
-export const logoutUser = () => request("auth/logout", logoutOptions());
+export const logoutUser = () => request<TLogoutResponce>("auth/logout", logoutOptions());

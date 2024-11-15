@@ -1,25 +1,29 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from './reset-password.module.css';
 import { passwordResetReset } from "../../utils/burger-api";
 
-function ResetPasswordPage() {
+function ResetPasswordPage(): React.JSX.Element {
 
     const [password, setPassword] = useState('');
     const [code, setCode] = useState('');
     const [hidePass, setHidePass] = useState(true);
-    const [error, setError] = useState();
+    const [error, setError] = useState<string|null>();
     const navigate = useNavigate();
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const onIconClick = () => {
-        setTimeout(() => inputRef.current.focus(), 0)
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus()
+            }
+        }, 0)
         setHidePass(!hidePass);
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         passwordResetReset(password, code)
             .then(() => {

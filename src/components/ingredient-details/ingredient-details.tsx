@@ -1,11 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
+import { TIngredientItem } from "../../utils/types";
 
-function IngredientDetails() {
+function IngredientDetails(): React.JSX.Element {
     const { id } = useParams();
+    //@ts-ignore
     const { ingredients } = useSelector(state => state.ingredients);
-    const selectedIngredient = ingredients.find(item => item._id === id);
+    const selectedIngredient = ingredients.find((item: TIngredientItem) => item._id === id);
 
     if (!selectedIngredient) {
         return <p className="text text_type_main-default text_color_inactive">Ингредиент не найден</p>

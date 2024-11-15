@@ -1,24 +1,29 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+//@ts-ignore
 import { login } from "../../services/actions/auth";
 import styles from './login.module.css';
 
-function LoginPage() {
+function LoginPage(): React.JSX.Element {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState('');
     const [hidePass, setHidePass] = useState(true);
 
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const dispath = useDispatch();
 
     const onIconClick = () => {
-        setTimeout(() => inputRef.current.focus(), 0)
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus()
+            }
+        }, 0)
         setHidePass(!hidePass);
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = (e: FormEvent) => {
         e.preventDefault();
         dispath(login(email, password));
     }

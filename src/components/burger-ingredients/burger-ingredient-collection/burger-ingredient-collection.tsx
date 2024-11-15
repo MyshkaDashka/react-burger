@@ -1,10 +1,14 @@
-import PropTypes from "prop-types";
 import { BurgerIngredientItem } from "../burger-ingredient-item/burger-ingredient-item";
-import { IngredientItemType } from "./../../../utils/types";
+import { TIngredientItem } from "../../../utils/types";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./burger-ingredient-collection.module.css";
 
-function BurgerIngredientCollection({ name, data }) {
+type TBurgerIngredientCollectionProps = {
+    name: string;
+    data: Array<TIngredientItem>;
+}
+
+function BurgerIngredientCollection({ name, data }: TBurgerIngredientCollectionProps): React.JSX.Element {
     let location = useLocation();
 
     return (
@@ -28,11 +32,6 @@ function BurgerIngredientCollection({ name, data }) {
             </div>
         </>
     )
-}
-
-BurgerIngredientCollection.propTypes = {
-    name: PropTypes.string,
-    data: PropTypes.arrayOf(IngredientItemType).isRequired
 }
 
 export { BurgerIngredientCollection };

@@ -2,7 +2,8 @@ import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-component
 import styles from "./order-details.module.css";
 import { useSelector } from "react-redux";
 
-function OrderDetails() {
+function OrderDetails(): React.JSX.Element {
+    //@ts-ignore
     const { sendOrderRequest, sendOrderError, order } = useSelector(state => state.order);
 
     if (sendOrderRequest) {
@@ -23,7 +24,7 @@ function OrderDetails() {
             <div className="pt-8">
                 <p className="text text_type_main-medium">идентификатор заказа</p>
             </div>
-            <CheckMarkIcon className="pt-15 pb-15" />
+            <CheckMarkIcon className="pt-15 pb-15" type="primary" />
             <p className="text text_type_main-small">Ваш заказ начали готовить</p>
             <p className="text text_type_main-default text_color_inactive">Дождитесь готовности на орбитральной станции</p>
         </div>

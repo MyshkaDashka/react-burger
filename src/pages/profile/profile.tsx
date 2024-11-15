@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
 import { NavLink, Outlet } from "react-router-dom";
+//@ts-ignore
 import { logout } from "../../services/actions/auth";
 import styles from "./profile.module.css";
 
-function ProfilePage() {
+function ProfilePage(): React.JSX.Element {
     const dispatch = useDispatch();
     return (
         <div className={styles.container}>
@@ -22,7 +23,7 @@ function ProfilePage() {
                         </div>
                     }
                 </NavLink>
-                <NavLink onClick={() => dispatch(logout())}>
+                <NavLink to="" onClick={() => dispatch(logout())}>
                     <p className={`p-2 text text_type_main-medium text_color_inactive`}>
                         Выход
                     </p>

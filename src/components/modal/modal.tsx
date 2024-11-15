@@ -1,16 +1,20 @@
 import { useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
-import PropTypes from 'prop-types';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
 import styles from "./modal.module.css";
 
 const modalRoot = document.getElementById("react-modals");
 
-function Modal({ title, onClose, children }) {
+type TModalProps = {
+    title: string;
+    onClose: () => void;
+    children: React.ReactNode;
+}
 
+function Modal({ title, onClose, children }: TModalProps): React.JSX.Element {
     const onKeyupEscape = useCallback(
-        (e) => {
+        (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose();
         }, [])
 
@@ -27,18 +31,12 @@ function Modal({ title, onClose, children }) {
                     <div className={styles.modal}>
                         <p className="text text_type_main-medium p-10">{title}</p>
                         {children}
-                        <CloseIcon className={styles.close} onClick={onClose} />
+                        <CloseIcon className={styles.close} onClick={onClose} type="primary" />
                     </div>
                 </>
             ),
-            modalRoot
+            modalRoot!
         ));
-}
-
-Modal.propTypes = {
-    title: PropTypes.string,
-    onClose: PropTypes.func,
-    children: PropTypes.element
 }
 
 export { Modal };

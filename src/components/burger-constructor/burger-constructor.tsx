@@ -1,12 +1,11 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerConstructorTotal } from "./burger-constructor-total/burger-constructor-total";
 import { BurgerConstructorIngredient } from "./burger-constructor-ingredient/burger-constructor-ingredient";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-//@ts-ignore
 import { addConstructorBun, addConstructorIngredient } from "../../services/actions/burger-constructor";
 import styles from "./burger-constructor.module.css";
 import { TIngredientItem } from "../../utils/types";
+import { useDispatch, useSelector } from "../../services/store";
 
 type TDropCollectedProps = {
     canDropBun: boolean;
@@ -14,7 +13,6 @@ type TDropCollectedProps = {
 }
 
 function BurgerConstructor(): React.JSX.Element {
-    //@ts-ignore
     const data = useSelector(store => store.burgerConstructor);
     const dispatch = useDispatch();
 

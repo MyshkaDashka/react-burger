@@ -14,7 +14,7 @@ export type TIngredientItem = {
 
 export type TUserData = {
     email: string;
-    password: string;
+    password?: string;
     name: string;
 }
 

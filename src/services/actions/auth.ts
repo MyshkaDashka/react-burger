@@ -1,36 +1,50 @@
 import { getAuthUser, loginUser, logoutUser, updateUserData } from "../../utils/burger-api";
+import { TUserData } from "../../utils/types";
+import { AppDispatch } from "../store";
 
-export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
-export const SET_USER = "SET_USER";
+export const SET_AUTH_CHECKED: 'SET_AUTH_CHECKED' = 'SET_AUTH_CHECKED';
+export const SET_USER: 'SET_USER' = 'SET_USER';
 
-export const setAuthChecked = (value) => ({
+export interface ISetAuthCheckedAction {
+    readonly type: typeof SET_AUTH_CHECKED;
+    readonly payload: boolean;
+}
+
+export interface ISetUserAction {
+    readonly type: typeof SET_USER;
+    readonly payload: TUserData | null;
+}
+
+export type TUserActions = ISetAuthCheckedAction | ISetUserAction;
+
+export const setAuthChecked = (value: boolean) => ({
     type: SET_AUTH_CHECKED,
     payload: value,
 });
 
-export const setUser = (user) => ({
+export const setUser = (user: TUserData | null) => ({
     type: SET_USER,
     payload: user,
 });
 
 export const getUser = () => {
-    return (dispatch) => {
+    return (dispatch: AppDispatch) => {
         return getAuthUser().then((res) => {
             dispatch(setUser(res.user));
         });
     };
 };
 
-export const updateUser = (payload) => {
-    return (dispatch) => {
+export const updateUser = (payload: TUserData) => {
+    return (dispatch: AppDispatch) => {
         return updateUserData(payload).then((res) => {
             dispatch(setUser(res.user));
         });
     };
 };
 
-export const login = (email, password) => {
-    return (dispatch) => {
+export const login = (email: string, password: string) => {
+    return (dispatch: AppDispatch) => {
         return loginUser(email, password).then((res) => {
             localStorage.setItem("accessToken", res.accessToken);
             localStorage.setItem("refreshToken", res.refreshToken);
@@ -41,7 +55,7 @@ export const login = (email, password) => {
 };
 
 export const checkUserAuth = () => {
-    return (dispatch) => {
+    return (dispatch: AppDispatch) => {
         if (localStorage.getItem("accessToken")) {
             dispatch(getUser())
                 .catch(() => {
@@ -57,7 +71,7 @@ export const checkUserAuth = () => {
 };
 
 export const logout = () => {
-    return (dispatch) => {
+    return (dispatch: AppDispatch) => {
         return logoutUser().then(() => {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");

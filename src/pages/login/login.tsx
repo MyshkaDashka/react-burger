@@ -1,10 +1,9 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormEvent, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-//@ts-ignore
 import { login } from "../../services/actions/auth";
 import styles from './login.module.css';
+import { useDispatch } from "../../services/store";
 
 function LoginPage(): React.JSX.Element {
     const [email, setEmail] = useState("");

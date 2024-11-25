@@ -1,11 +1,10 @@
 import React from 'react';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import styles from "./app-header.module.css";
+import { useSelector } from '../../services/store';
 
 function AppHeader(): React.JSX.Element {
-    //@ts-ignore
     const user = useSelector(store => store.user.user);
     return (
         <header className={`${styles.header} p-4`}>

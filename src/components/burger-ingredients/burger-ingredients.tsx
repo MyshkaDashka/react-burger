@@ -1,13 +1,12 @@
 import React, { useCallback, useState, useMemo, useRef } from "react";
-import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIngredientCollection } from "./burger-ingredient-collection/burger-ingredient-collection";
 import styles from "./burger-ingredients.module.css";
 import { TIngredientItem } from "../../utils/types";
+import { useSelector } from "../../services/store";
 
 function BurgerIngredients(): React.JSX.Element {
     const [current, setCurrent] = useState('bun');
-    //@ts-ignore
     const { ingredients } = useSelector(state => state.ingredients);
 
     const tabsRef = useRef<HTMLDivElement>(null);

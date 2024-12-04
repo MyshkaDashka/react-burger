@@ -17,6 +17,8 @@ import { OrdersPage } from '../../pages/orders/orders';
 import { ProfileDetailsPage } from '../../pages/profile/profile-details/profile-details';
 import { useDispatch, useSelector } from '../../services/store';
 import styles from "./app.module.css";
+import { FeedPage } from '../../pages/feed/feed';
+import { OrderComposition } from '../order-composition/order-composition';
 
 function App(): React.JSX.Element {
   const dispatch = useDispatch();
@@ -33,8 +35,12 @@ function App(): React.JSX.Element {
     dispatch(checkUserAuth());
   }, []);
 
-  const onCloseModal = () => {
+  const onCloseIngrModal = () => {
     navigate("/");
+  };
+
+  const onCloseFeedModal = () => {
+    navigate(-1);
   };
 
   if (ingredientsRequest) {
@@ -61,8 +67,22 @@ function App(): React.JSX.Element {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal title="Детали ингредиента" onClose={onCloseModal}>
+              <Modal title="Детали ингредиента" onClose={onCloseIngrModal}>
                 <IngredientDetails />
+              </Modal>
+            } />
+          <Route
+            path="/feed/:number"
+            element={
+              <Modal title="" onClose={onCloseFeedModal}>
+                <OrderComposition />
+              </Modal>
+            } />
+          <Route
+            path="/profile/orders/:number"
+            element={
+              <Modal title="" onClose={onCloseFeedModal}>
+                <OrderComposition />
               </Modal>
             } />
         </Routes>
@@ -72,6 +92,8 @@ function App(): React.JSX.Element {
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<NotFound404Page />} />
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:number" element={<OrderComposition />} />
 
         <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
         <Route path="/register" element={<OnlyUnAuth component={<RegisterPage />} />} />
@@ -81,6 +103,7 @@ function App(): React.JSX.Element {
         <Route path="/profile" element={<OnlyAuth component={<ProfilePage />} />}>
           <Route index element={<OnlyAuth component={<ProfileDetailsPage />} />} />
           <Route path="/profile/orders" element={<OnlyAuth component={<OrdersPage />} />} />
+          <Route path="/profile/orders/:number" element={<OnlyAuth component={<OrderComposition />} />} />
         </Route>
       </Routes>
     </div>

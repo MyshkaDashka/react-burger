@@ -5,12 +5,14 @@ export type TIngredientsState = {
     ingredients: ReadonlyArray<TIngredientItem>;
     ingredientsRequest: boolean;
     ingredientsError: string | null;
+    ingredientsMap: any;
 };
 
 const initialState: TIngredientsState = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsError: "",
+    ingredientsMap: {}
 };
 
 export const ingredientsReducer = (state = initialState, action: TIngredientsActions): TIngredientsState => {
@@ -25,6 +27,10 @@ export const ingredientsReducer = (state = initialState, action: TIngredientsAct
             return {
                 ...state,
                 ingredients: action.items,
+                ingredientsMap: action.items.reduce(
+                    (accumulator, currentValue) => ({ ...accumulator, [currentValue._id]: currentValue }),
+                    {}
+                ),
                 ingredientsRequest: false
             };
         }

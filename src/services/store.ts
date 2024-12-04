@@ -13,6 +13,10 @@ import { TIngredientsActions } from "./actions/ingredients";
 import { TBurgerConstructorActions } from "./actions/burger-constructor";
 import { TOrderActions } from "./actions/order";
 import { TUserActions } from "./actions/auth";
+import { socketMiddleware } from "./middleware/socket-middleware";
+import { TOrder } from "../utils/types";
+import { orderFeedSlice, wsClose, wsConnecting, wsError, WsInternalActions, wsMessage, wsOpen } from "./reducers/feed";
+import { wsConnect, wsDisconnect, WsExternalActions } from "./actions/web-socket";
 
 declare global {
     interface Window {
@@ -22,13 +26,24 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const feedMiddleware = socketMiddleware<TOrder, unknown>({
+    connect: wsConnect,
+    disconnect: wsDisconnect,
+    onConnecting: wsConnecting,
+    onOpen: wsOpen,
+    onClose: wsClose,
+    onError: wsError,
+    onMessage: wsMessage
+});
+
+const enhancer = composeEnhancers(applyMiddleware(thunk, feedMiddleware));
 
 const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
     burgerConstructor: burgerConstructorReducer,
     order: orderReducer,
     user: userReducer,
+    orders: orderFeedSlice.reducer
 });
 
 export const configureStore = () => {
@@ -42,7 +57,7 @@ export const configureStore = () => {
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-export type AppActions = TIngredientsActions | TBurgerConstructorActions | TOrderActions | TUserActions;
+export type AppActions = TIngredientsActions | TBurgerConstructorActions | TOrderActions | TUserActions | WsExternalActions | WsInternalActions;
 export type AppDispatch = ThunkDispatch<RootState, unknown, AppActions>;
 
 export const useDispatch = dispatchHook.withTypes<AppDispatch>();

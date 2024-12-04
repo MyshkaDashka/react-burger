@@ -17,7 +17,7 @@ function AppHeader(): React.JSX.Element {
                         </div>
                     }
                 </NavLink>
-                <NavLink to="/orders">
+                <NavLink to="/feed">
                     {({ isActive }) =>
                         <div className={`${styles.item} p-5 ${isActive ? styles.active : "text_color_inactive"}`}>
                             <ListIcon className='pr-2' type={isActive ? "primary" : "secondary"} />

@@ -1,0 +1,16 @@
+.columnsection {
+    flex-basis: 50%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.countsection {
+    display: flex;
+}
+
+.greencolortext {
+    color: #0cc;
+}

@@ -1,6 +1,7 @@
-import { TAuthUserResponce, TIngredientListResponce, TLogoutResponce, TOrderResponce, TRegisterResponce, TResetPasswordResponce, TTokenResponce, TUserData } from "./types";
+import { TAuthUserResponce, TIngredientListResponce, TLogoutResponce, TOrder, TOrderResponce, TRegisterResponce, TResetPasswordResponce, TTokenResponce, TUserData } from "./types";
 
 export const BASE_URL = `https://norma.nomoreparties.space/api/`;
+export const WSS_BASE_URL = `wss://norma.nomoreparties.space/orders`;
 
 const checkResponse = <T>(res: Response): Promise<T> => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -155,3 +156,5 @@ const logoutOptions = () => {
 }
 
 export const logoutUser = () => request<TLogoutResponce>("auth/logout", logoutOptions());
+
+export const getOrderByNumber = (number: string) => request<TOrder>("orders/" + number);

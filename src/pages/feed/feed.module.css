@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+}
+
+.columnsection {
+    flex-basis: 50%;
+    text-align: left;
+}
+
+.containerscroll {
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.link:hover,
+.active:hover {
+    color: #fff;
+}

@@ -1,11 +1,10 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
 import { TIngredientItem } from "../../utils/types";
+import { useSelector } from "../../services/store";
 
 function IngredientDetails(): React.JSX.Element {
     const { id } = useParams();
-    //@ts-ignore
     const { ingredients } = useSelector(state => state.ingredients);
     const selectedIngredient = ingredients.find((item: TIngredientItem) => item._id === id);
 

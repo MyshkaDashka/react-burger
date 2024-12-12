@@ -1,12 +1,11 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-//@ts-ignore
 import { updateUser } from "../../../services/actions/auth";
 import styles from "./profile-details.module.css";
+import { useDispatch, useSelector } from "../../../services/store";
+import { TUserData } from "../../../utils/types";
 
-function ProfileDetailsPage() :React.JSX.Element{
-    //@ts-ignore
+function ProfileDetailsPage(): React.JSX.Element {
     const user = useSelector(store => store.user.user);
     const [userForm, setUserForm] = useState(user);
     const [isFormChanged, setIsFormChanged] = useState(false);
@@ -14,11 +13,11 @@ function ProfileDetailsPage() :React.JSX.Element{
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
-        dispatch(updateUser(userForm));
+        dispatch(updateUser(userForm as TUserData));
     }
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUserForm({ ...userForm, [e.target.name]: e.target.value });
+        setUserForm({ ...userForm, [e.target.name]: e.target.value } as TUserData);
         setIsFormChanged(true);
     }
 
@@ -34,7 +33,7 @@ function ProfileDetailsPage() :React.JSX.Element{
                 placeholder={'Имя'}
                 onChange={onChange}
                 icon={"EditIcon"}
-                value={userForm.name}
+                value={userForm ? userForm.name : ""}
                 name={'name'}
                 error={false}
                 errorText={'Ошибка'}
@@ -46,7 +45,7 @@ function ProfileDetailsPage() :React.JSX.Element{
                 placeholder={'Логин'}
                 onChange={onChange}
                 icon={"EditIcon"}
-                value={userForm.email}
+                value={userForm ? userForm.email : ""}
                 name={'email'}
                 error={false}
                 errorText={'Ошибка'}
@@ -58,7 +57,7 @@ function ProfileDetailsPage() :React.JSX.Element{
                 placeholder={'Пароль'}
                 onChange={onChange}
                 icon={"EditIcon"}
-                value={userForm.password ?? ""}
+                value={userForm?.password ? userForm.password : ""}
                 name={'password'}
                 error={false}
                 errorText={'Ошибка'}
@@ -70,7 +69,7 @@ function ProfileDetailsPage() :React.JSX.Element{
                     <Button htmlType="button" type="secondary" size="medium" onClick={onCancelButtonClick}>
                         Отменить
                     </Button>
-                    <Button htmlType="submit" type="primary" size="medium" disabled={!userForm.name || !userForm.email} >
+                    <Button htmlType="submit" type="primary" size="medium" disabled={!userForm?.name || !userForm?.email} >
                         Сохранить
                     </Button>
                 </div>

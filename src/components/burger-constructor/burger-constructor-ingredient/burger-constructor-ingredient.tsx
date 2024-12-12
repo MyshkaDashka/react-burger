@@ -1,12 +1,11 @@
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
 import { useDrag, useDrop } from "react-dnd";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredientItem } from "../../../utils/types";
-//@ts-ignore
 import { deleteConstructorIngredient, moveIngredient } from "../../../services/actions/burger-constructor";
 import { Identifier } from "dnd-core";
 import styles from "./burger-constructor-ingredient.module.css";
+import { useDispatch } from "../../../services/store";
 
 type TBurgerConstructorIngredientProps = {
     id: string;
@@ -30,7 +29,7 @@ const BurgerConstructorIngredient = ({ id, index, item }: TBurgerConstructorIngr
     const dispatch = useDispatch();
 
     const deleteFromConstructor = () => {
-        return dispatch(deleteConstructorIngredient(item.key));
+        return dispatch(deleteConstructorIngredient(item));
     }
     const ref = useRef<HTMLDivElement>(null);
 

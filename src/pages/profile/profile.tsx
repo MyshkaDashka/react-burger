@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux";
 import { NavLink, Outlet } from "react-router-dom";
-//@ts-ignore
 import { logout } from "../../services/actions/auth";
 import styles from "./profile.module.css";
+import { useDispatch } from "../../services/store";
 
 function ProfilePage(): React.JSX.Element {
     const dispatch = useDispatch();

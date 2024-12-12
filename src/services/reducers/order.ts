@@ -1,12 +1,18 @@
-import { RESET_ORDER, SEND_ORDER_ERROR, SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS } from "../actions/order";
+import { RESET_ORDER, SEND_ORDER_ERROR, SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, TOrderActions } from "../actions/order";
 
-const initialState = {
+export type TOrderState = {
+    order: {number:number} | null;
+    sendOrderRequest: boolean;
+    sendOrderError: string | null;
+};
+
+const initialState: TOrderState = {
     order: null,
     sendOrderRequest: false,
     sendOrderError: "",
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TOrderActions) => {
     switch (action.type) {
         case SEND_ORDER_REQUEST: {
             return {

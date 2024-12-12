@@ -2,18 +2,15 @@ import { useMemo, useState } from "react";
 import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../../modal/modal";
 import { OrderDetails } from "../../order-details/order-details";
-import styles from "./burger-constructor-total.module.css"
-import { useDispatch, useSelector } from "react-redux";
-//@ts-ignore
+import styles from "./burger-constructor-total.module.css";
 import { resetOrder, sendOrderData } from "../../../services/actions/order";
 import { useNavigate } from "react-router-dom";
 import { TIngredientItem } from "../../../utils/types";
+import { useDispatch, useSelector } from "../../../services/store";
 
 function BurgerConstructorTotal(): React.JSX.Element {
     let [showOrderDetails, setShowOrderDetails] = useState(false);
-    //@ts-ignore
     const { bun, burgerIngredients } = useSelector(store => store.burgerConstructor);
-    //@ts-ignore
     const user = useSelector(store => store.user.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();

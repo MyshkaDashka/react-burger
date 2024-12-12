@@ -1,16 +1,15 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredientItem } from "../../../utils/types";
-import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { useDrag } from "react-dnd";
 import styles from "./burger-ingredient-item.module.css";
+import { useSelector } from "../../../services/store";
 
 type TBurgerIngredientItemProps = {
     item: TIngredientItem
 }
 
 const BurgerIngredientItem = ({ item }: TBurgerIngredientItemProps): React.JSX.Element => {
-    //@ts-ignore
     const { bun, burgerIngredients } = useSelector(store => store.burgerConstructor);
     const count = useMemo(
         () => {

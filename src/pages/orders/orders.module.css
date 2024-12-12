@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 850px;
+}
+
+.containerscroll {
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+.link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.link:hover,
+.active:hover {
+    color: #fff;
+}

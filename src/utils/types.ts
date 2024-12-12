@@ -14,7 +14,7 @@ export type TIngredientItem = {
 
 export type TUserData = {
     email: string;
-    password: string;
+    password?: string;
     name: string;
 }
 
@@ -63,4 +63,27 @@ export type TAuthUserResponce = {
         email: string,
         name: string
     },
+}
+
+export interface IOrderFeedItem {
+    ingredients: Array<string>;
+    _id: string;
+    name: string;
+    status: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export enum WebsocketStatus {
+    CONNECTING = 'CONNECTING...',
+    ONLINE = 'ONLINE',
+    OFFLINE = 'OFFLINE'
+}
+
+export type TOrder = {
+    success: boolean,
+    orders: Array<IOrderFeedItem>,
+    total: number,
+    totalToday: number
 }

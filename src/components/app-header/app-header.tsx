@@ -1,11 +1,10 @@
 import React from 'react';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import styles from "./app-header.module.css";
+import { useSelector } from '../../services/store';
 
 function AppHeader(): React.JSX.Element {
-    //@ts-ignore
     const user = useSelector(store => store.user.user);
     return (
         <header className={`${styles.header} p-4`}>
@@ -18,7 +17,7 @@ function AppHeader(): React.JSX.Element {
                         </div>
                     }
                 </NavLink>
-                <NavLink to="/orders">
+                <NavLink to="/feed">
                     {({ isActive }) =>
                         <div className={`${styles.item} p-5 ${isActive ? styles.active : "text_color_inactive"}`}>
                             <ListIcon className='pr-2' type={isActive ? "primary" : "secondary"} />

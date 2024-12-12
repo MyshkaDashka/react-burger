@@ -6,7 +6,7 @@ export type TBurgerConstructorState = {
     burgerIngredients: Array<TBurgerConstructorItem>;
 };
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
     bun: null,
     burgerIngredients: [],
 };
@@ -30,7 +30,7 @@ export const burgerConstructorReducer = (state = initialState, action: TBurgerCo
                 ...state,
                 burgerIngredients:
                     action.payload.type !== 'bun'
-                        ? [...state.burgerIngredients].filter(item => item.key !== action.payload.key) 
+                        ? [...state.burgerIngredients].filter(item => item.key !== action.payload.key)
                         : [...state.burgerIngredients]
             };
         }

@@ -19,7 +19,7 @@ function OrderDetails(): React.JSX.Element {
 
     return (
         <div className={`${styles.container} pt-5 pb-20`}>
-            <p className="text text_type_digits-large">{order?.number}</p>
+            <p className="text text_type_digits-large" data-test="orderNumber">{order?.number}</p>
             <div className="pt-8">
                 <p className="text text_type_main-medium">идентификатор заказа</p>
             </div>

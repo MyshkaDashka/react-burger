@@ -8,7 +8,7 @@ export type TIngredientsState = {
     ingredientsMap: any;
 };
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
     ingredients: [],
     ingredientsRequest: false,
     ingredientsError: "",

@@ -20,7 +20,7 @@ function OrdersPage(): React.JSX.Element {
 
     const { orders, status } = useSelector(state => state.orders);
 
-    if (status === WebsocketStatus.CONNECTING) {
+    if (orders?.orders?.length == 0 && status === WebsocketStatus.CONNECTING) {
         return <p className="text text_type_main-default text_color_inactive">
             Поиск...
         </p>

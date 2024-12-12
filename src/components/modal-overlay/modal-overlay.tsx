@@ -6,7 +6,7 @@ type TModalOverlayProps = {
 
 function ModalOverlay({ onClick }: TModalOverlayProps): React.JSX.Element {
     return (
-        <div className={styles.overlay} onClick={onClick}>
+        <div className={styles.overlay} onClick={onClick} data-test="modalOverlay">
         </div>
     );
 }

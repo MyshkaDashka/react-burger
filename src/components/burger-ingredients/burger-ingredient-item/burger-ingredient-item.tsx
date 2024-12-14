@@ -31,7 +31,7 @@ const BurgerIngredientItem = ({ item }: TBurgerIngredientItemProps): React.JSX.E
     }));
 
     return (
-        <div className={`${styles.item} ${isDragging && styles.ondrag}`} ref={drag}>
+        <div className={`${styles.item} ${isDragging && styles.ondrag}`} ref={drag}  data-test="ingredientItem">
             {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
             <div className="p-4">
                 <img src={item.image} alt={item.name} />

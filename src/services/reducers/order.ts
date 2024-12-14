@@ -1,12 +1,12 @@
 import { RESET_ORDER, SEND_ORDER_ERROR, SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, TOrderActions } from "../actions/order";
 
 export type TOrderState = {
-    order: {number:number} | null;
+    order: { number: number } | null;
     sendOrderRequest: boolean;
     sendOrderError: string | null;
 };
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
     order: null,
     sendOrderRequest: false,
     sendOrderError: "",

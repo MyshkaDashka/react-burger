@@ -28,10 +28,12 @@ function Modal({ title, onClose, children }: TModalProps): React.JSX.Element {
             (
                 <>
                     <ModalOverlay onClick={onClose} />
-                    <div className={styles.modal}>
+                    <div className={styles.modal} data-test="modalContainer">
                         <p className="text text_type_main-medium p-10">{title}</p>
                         {children}
-                        <CloseIcon className={styles.close} onClick={onClose} type="primary" />
+                        <button type='button' className={styles.close} data-test="modalCloseButton" onClick={onClose}>
+                            <CloseIcon type="primary" />
+                        </button>
                     </div>
                 </>
             ),

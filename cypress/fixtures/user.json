@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjEyYmFmZDgyOWJlMDAxYzc3OWJlYiIsImlhdCI6MTczNDAxNTcyMiwiZXhwIjoxNzM0MDE2OTIyfQ.DR1qJ1S28Ry05IZ3GmJVqZpYDhueIpV1N7gQb81f7Yk",
+  "refreshToken": "305f597c44041aa83986daf442ba661d0e2585dd51e800acafe1871a26af3859b2370b02ab45ac64",
+  "user": {
+    "email": "solnyshko20.05@mail.ru",
+    "name": "Иванов Иван Иванович"
+  }
+}

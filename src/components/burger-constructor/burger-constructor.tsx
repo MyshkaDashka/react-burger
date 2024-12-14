@@ -32,9 +32,9 @@ function BurgerConstructor(): React.JSX.Element {
     return (
         <>
             {data &&
-                <div className={`${styles.items} pt-25`} ref={drop}>
+                <div className={`${styles.items} pt-25`} ref={drop} data-test="constructorContainer">
                     {data.bun ?
-                        <div className="pr-4">
+                        <div className="pr-4" data-test="constructorBunTop">
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
@@ -48,7 +48,7 @@ function BurgerConstructor(): React.JSX.Element {
                             <p>Выберите булки</p>
                         </div>
                     }
-                    <div className={`${styles.items} ${styles.list}`}>
+                    <div className={`${styles.items} ${styles.list}`} data-test="constructorItems">
                         {data.burgerIngredients?.length > 0 ?
                             data.burgerIngredients.map((item: TIngredientItem & { key: string }, index: number) => (
                                 <BurgerConstructorIngredient key={item.key} item={item} index={index} id={item.key} />
@@ -60,7 +60,7 @@ function BurgerConstructor(): React.JSX.Element {
                         }
                     </div>
                     {data.bun ?
-                        <div className="pr-4">
+                        <div className="pr-4" data-test="constructorBunBottom">
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}

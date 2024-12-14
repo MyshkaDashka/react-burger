@@ -65,7 +65,7 @@ function BurgerConstructorTotal(): React.JSX.Element {
                 <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
                 <CurrencyIcon type="primary" />
                 <div className="pl-10">
-                    <Button htmlType="button" type="primary" size="large" onClick={() => sendOrder()} disabled={isOrderButtonDisabled()}>
+                    <Button htmlType="button" type="primary" size="large" onClick={() => sendOrder()} disabled={isOrderButtonDisabled()} data-test="submitOrderButton">
                         Оформить заказ
                     </Button>
                 </div>

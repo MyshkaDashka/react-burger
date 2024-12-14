@@ -41,6 +41,7 @@ function LoginPage(): React.JSX.Element {
                     error={false}
                     errorText={'Ошибка ввода'}
                     size={'default'}
+                    data-testid="email_input"
                 />
                 <Input
                     type={hidePass ? 'password' : "text"}
@@ -54,6 +55,7 @@ function LoginPage(): React.JSX.Element {
                     errorText={'Ошибка'}
                     size={'default'}
                     extraClass="pt-6 pb-6"
+                    data-testid="password_input"
                 />
                 <Button htmlType="submit" type="primary" size="large" disabled={!email || !password} >
                     Войти
